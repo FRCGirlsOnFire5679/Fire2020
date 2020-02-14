@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import frc.robot.subsystems.AbsoluteEncoder;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -75,6 +76,14 @@ public final class Constants {
     public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
     public static final double kMaxSpeedMetersPerSecond = 3;
+	public static AbsoluteEncoder kDriveEncoderFrontLeft;
+	public static AbsoluteEncoder kSteerEncoderFrontLeft;
+	public static AbsoluteEncoder kDriveEncoderRearLeft;
+	public static AbsoluteEncoder kSteerEncoderRearLeft;
+	public static AbsoluteEncoder kSteerEncoderFrontRight;
+	public static AbsoluteEncoder kDriveEncoderFrontRight;
+	public static AbsoluteEncoder kDriveEncoderRearRight;
+	public static AbsoluteEncoder kSteerEncoderRearRight;
   }
 
   public static final class ModuleConstants {

@@ -28,7 +28,10 @@ public class DriveSubsystem extends SubsystemBase {
                          DriveConstants.kFrontLeftDriveEncoderPorts,
                          DriveConstants.kFrontLeftTurningEncoderPorts,
                          DriveConstants.kFrontLeftDriveEncoderReversed,
-                         DriveConstants.kFrontLeftTurningEncoderReversed);
+                         DriveConstants.kFrontLeftTurningEncoderReversed,
+                         DriveConstants.kDriveEncoderFrontLeft,
+                         DriveConstants.kSteerEncoderFrontLeft
+                         );
 
   private final SwerveModule m_rearLeft =
       new SwerveModule(DriveConstants.kRearLeftDriveMotorPort,
@@ -36,7 +39,10 @@ public class DriveSubsystem extends SubsystemBase {
                        DriveConstants.kRearLeftDriveEncoderPorts,
                        DriveConstants.kRearLeftTurningEncoderPorts,
                        DriveConstants.kRearLeftDriveEncoderReversed,
-                       DriveConstants.kRearLeftTurningEncoderReversed);
+                       DriveConstants.kRearLeftTurningEncoderReversed,
+                       DriveConstants.kDriveEncoderRearLeft,
+                       DriveConstants.kSteerEncoderRearLeft
+                       );
 
 
   private final SwerveModule m_frontRight =
@@ -45,7 +51,10 @@ public class DriveSubsystem extends SubsystemBase {
                        DriveConstants.kFrontRightDriveEncoderPorts,
                        DriveConstants.kFrontRightTurningEncoderPorts,
                        DriveConstants.kFrontRightDriveEncoderReversed,
-                       DriveConstants.kFrontRightTurningEncoderReversed);
+                       DriveConstants.kFrontRightTurningEncoderReversed,
+                       DriveConstants.kDriveEncoderFrontRight,
+                       DriveConstants.kSteerEncoderFrontRight
+                       );
 
   private final SwerveModule m_rearRight =
       new SwerveModule(DriveConstants.kRearRightDriveMotorPort,
@@ -53,7 +62,10 @@ public class DriveSubsystem extends SubsystemBase {
                        DriveConstants.kRearRightDriveEncoderPorts,
                        DriveConstants.kRearRightTurningEncoderPorts,
                        DriveConstants.kRearRightDriveEncoderReversed,
-                       DriveConstants.kRearRightTurningEncoderReversed);
+                       DriveConstants.kRearRightTurningEncoderReversed,
+                       DriveConstants.kDriveEncoderRearRight,
+                       DriveConstants.kSteerEncoderRearRight
+                       );
 
   // The gyro sensor
   private final Gyro m_gyro = new ADXRS450_Gyro();
