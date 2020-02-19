@@ -24,7 +24,6 @@ public class SwerveModule {
   private final WPI_TalonSRX turningMotor;
 
   private final AbsoluteEncoder driveEncoder;
-  private final AbsoluteEncoder turningEncoder;
 
   /**
    * Constructs a SwerveModule.
@@ -34,12 +33,9 @@ public class SwerveModule {
    */
   public SwerveModule(int driveMotorChannel,
                       int turningMotorChannel,
-                      int[] driveEncoderPorts,
-                      int[] turningEncoderPorts,
+                      int driveEncoderPort,
                       boolean driveEncoderReversed,
-                      boolean turningEncoderReversed,
-                      AbsoluteEncoder driveEncoder,
-                      AbsoluteEncoder turningEncoder
+                      AbsoluteEncoder driveEncoder
                       )
 {
 
@@ -47,7 +43,6 @@ public class SwerveModule {
     turningMotor = new WPI_TalonSRX(turningMotorChannel);
 
    this.driveEncoder = driveEncoder;
-   this.turningEncoder = turningEncoder;
 
    // turningEncoder = turningMotor.getAnalog(CANAnalog.AnalogMode.kAbsolute);
 
@@ -76,7 +71,7 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveMotor.get(), new Rotation2d(turningEncoder.getAngle()));
+    return new SwerveModuleState(driveMotor.get(), new Rotation2d(driveEncoder.getAngle()));
   }
 
   /**
