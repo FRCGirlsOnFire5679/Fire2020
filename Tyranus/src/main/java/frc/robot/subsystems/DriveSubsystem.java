@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ModuleConstants;
 
 @SuppressWarnings("PMD.ExcessiveImports")
 public class DriveSubsystem extends SubsystemBase {
@@ -26,6 +27,7 @@ public class DriveSubsystem extends SubsystemBase {
       = new SwerveModule(DriveConstants.kFrontLeftDriveMotorPort,
                          DriveConstants.kFrontLeftTurningMotorPort,
                          DriveConstants.kFrontLeftDriveEncoderPort,
+                         ModuleConstants.kDriveEncoderDistancePerPulse,
                          DriveConstants.kFrontLeftDriveEncoderReversed,
                          DriveConstants.kDriveEncoderFrontLeft
                          );
@@ -34,6 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveModule(DriveConstants.kRearLeftDriveMotorPort,
                        DriveConstants.kRearLeftTurningMotorPort,
                        DriveConstants.kRearLeftDriveEncoderPort,
+                       ModuleConstants.kDriveEncoderDistancePerPulse,
                        DriveConstants.kRearLeftDriveEncoderReversed,
                        DriveConstants.kDriveEncoderRearLeft
                        );
@@ -43,6 +46,7 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveModule(DriveConstants.kFrontRightDriveMotorPort,
                        DriveConstants.kFrontRightTurningMotorPort,
                        DriveConstants.kFrontRightDriveEncoderPort,
+                       ModuleConstants.kDriveEncoderDistancePerPulse,
                        DriveConstants.kFrontRightDriveEncoderReversed,
                        DriveConstants.kDriveEncoderFrontRight
                        );
@@ -51,6 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
       new SwerveModule(DriveConstants.kRearRightDriveMotorPort,
                        DriveConstants.kRearRightTurningMotorPort,
                        DriveConstants.kRearRightDriveEncoderPort,
+                       ModuleConstants.kDriveEncoderDistancePerPulse,
                        DriveConstants.kRearRightDriveEncoderReversed,
                        DriveConstants.kDriveEncoderRearRight
                        );

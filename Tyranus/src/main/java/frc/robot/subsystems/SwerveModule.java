@@ -18,12 +18,13 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.commands.*;
 import frc.robot.OI;
+import edu.wpi.first.wpilibj.Encoder;
 
 public class SwerveModule {
   private final WPI_TalonSRX driveMotor;
   private final WPI_TalonSRX turningMotor;
 
-  private final AbsoluteEncoder driveEncoder;
+  private final Encoder driveEncoder;
 
   /**
    * Constructs a SwerveModule.
@@ -34,8 +35,9 @@ public class SwerveModule {
   public SwerveModule(int driveMotorChannel,
                       int turningMotorChannel,
                       int driveEncoderPort,
+                      double kDriveEncoderDistancePerPulse,
                       boolean driveEncoderReversed,
-                      AbsoluteEncoder driveEncoder
+                      Encoder driveEncoder
                       )
 {
 
@@ -58,11 +60,12 @@ public class SwerveModule {
     // Set the distance (in this case, angle) per pulse for the turning encoder.
     // This is the the angle through an entire rotation (2 * wpi::math::pi)
     // divided by the encoder resolution.
-    //turningEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);
+    //driveEncoder.set(ModuleConstants.kTurningEncoderDistancePerPulse);
     //turningEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderDistancePerPulse);
 
     //Set whether turning encoder should be reversed or not
-    //turningEncoder.setInverted(turningEncoderReversed);
+    driveEncoder.setReverseDirection(driveEncoderReversed);
+    driveEncoder.setDistancePerPulse(kDriveEncoderDistancePerPulse);
   }
 
   /**
@@ -71,7 +74,8 @@ public class SwerveModule {
    * @return The current state of the module.
    */
   public SwerveModuleState getState() {
-    return new SwerveModuleState(driveMotor.get(), new Rotation2d(driveEncoder.getAngle()));
+    return new SwerveModuleState(driveMotor.getSelectedSensorVelocity(), 
+      new Rotation2d(driveEncoder.get()));
   }
 
   /**
@@ -99,6 +103,6 @@ public class SwerveModule {
    */
 
   public void resetEncoders() {
-    driveEncoder.resetAccumulator();
+    driveEncoder.reset();
   }
 }
