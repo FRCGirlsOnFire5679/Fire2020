@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.DriveConstants;
@@ -64,6 +65,17 @@ public class DriveSubsystem extends SubsystemBase {
     // Negating the angle because WPILib gyros are CW positive.
     return Rotation2d.fromDegrees(m_gyro.getAngle() * (DriveConstants.kGyroReversed ? 1.0 : -1.0));
   }
+
+  public void smartDash() {
+    SmartDashboard.putNumber("FL", m_frontLeft.getAngle()* 360 / (2 * Math.PI));
+    SmartDashboard.putNumber("FR", m_frontRight.getAngle() * 360 / (2 * Math.PI));
+    SmartDashboard.putNumber("BL", m_rearLeft.getAngle() * 360 / (2 * Math.PI));
+    SmartDashboard.putNumber("BR", m_rearRight.getAngle() * 360 / (2 * Math.PI));
+    // SmartDashboard.putNumber("FLDrive", modules[1].getDistance());
+    // SmartDashboard.putBoolean("FieldOrient", drivingField);
+    SmartDashboard.putNumber("Gyro", m_gyro.getAngle());
+    // SmartDashboard.putNumber("Pitch", Robot.navxGyro.getTilt());
+}
 
   @Override
   public void periodic() {

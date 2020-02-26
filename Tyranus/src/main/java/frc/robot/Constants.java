@@ -69,10 +69,10 @@ public final class Constants {
 
     public static final double kMaxSpeedMetersPerSecond = 3;
 
-    private static double kDriveEncoderFrontLeftOffset = 0;
-    private static double kDriveEncoderRearLeftOffset = 0;
-    private static double kDriveEncoderFrontRightOffset = 0;
-    private static double kDriveEncoderRearRightOffset = 0;
+    private static double kDriveEncoderFrontLeftOffset = 60;
+    private static double kDriveEncoderFrontRightOffset = 7;
+    private static double kDriveEncoderRearLeftOffset = 359;
+    private static double kDriveEncoderRearRightOffset = 74;
 
     public static AbsoluteEncoder kDriveEncoderFrontLeft = new AbsoluteEncoder(kFrontLeftDriveEncoderPort,
         kDriveEncoderFrontLeftOffset);

@@ -18,6 +18,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 public class SwerveModule {
   private final WPI_TalonSRX driveMotor;
   private final WPI_TalonSRX turningMotor;
+  private double distZero;
+  private double kDriveEncoderDistancePerPulse;
 
   private final AbsoluteEncoder driveEncoder;
   private PIDController drivePidController;
@@ -34,6 +36,7 @@ public class SwerveModule {
   public SwerveModule(int driveMotorChannel, int turningMotorChannel, int driveEncoderPort,
       double kDriveEncoderDistancePerPulse, boolean driveEncoderReversed, AbsoluteEncoder encoder) {
 
+    this.kDriveEncoderDistancePerPulse = kDriveEncoderDistancePerPulse;
     driveMotor = new WPI_TalonSRX(driveMotorChannel);
     turningMotor = new WPI_TalonSRX(turningMotorChannel);
 
@@ -92,6 +95,16 @@ public class SwerveModule {
     resetEncoders();
   }
 
+  public double getDistance() {
+    double distance = driveMotor.getSelectedSensorPosition() * kDriveEncoderDistancePerPulse - distZero;
+    SmartDashboard.putNumber("distance", distance);
+    return distance;
+  }
+
+  public double getAngle() {
+    return driveEncoder.getAngle();
+  }
+
   /**
    * Returns the current state of the module.
    *
@@ -122,6 +135,13 @@ public class SwerveModule {
       kI = i;
     }
 
+    SmartDashboard.putNumber("P", p);
+    SmartDashboard.putNumber("I", i);
+    SmartDashboard.putNumber("D", d);
+    SmartDashboard.putNumber("kP", kP);
+    SmartDashboard.putNumber("kI", kI);
+    SmartDashboard.putNumber("kD", kD);
+
     double desiredDrive = state.speedMetersPerSecond;
     double desiredSteering = state.angle.getRadians();
     double currentSteering = driveEncoder.getAngle();
@@ -137,6 +157,11 @@ public class SwerveModule {
       steeringError += Math.PI;
       desiredDrive *= -1;
     }
+
+    
+    SmartDashboard.putNumber("desiredDrive", desiredDrive);
+    SmartDashboard.putNumber("desiredSteering", desiredSteering);
+    SmartDashboard.putNumber("currentSteering", currentSteering);
 
     double steeringSetpoint = currentSteering + steeringError;
 
@@ -159,5 +184,6 @@ public class SwerveModule {
   public void resetEncoders() {
     //TODO: Fix and uncomment
     //driveEncoder.resetAccumulator();
+    distZero += getDistance();
   }
 }
