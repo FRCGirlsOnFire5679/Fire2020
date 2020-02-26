@@ -22,50 +22,32 @@ import frc.robot.Constants.ModuleConstants;
 
 @SuppressWarnings("PMD.ExcessiveImports")
 public class DriveSubsystem extends SubsystemBase {
-  //Robot swerve modules
-  private final SwerveModule m_frontLeft
-      = new SwerveModule(DriveConstants.kFrontLeftDriveMotorPort,
-                         DriveConstants.kFrontLeftTurningMotorPort,
-                         DriveConstants.kFrontLeftDriveEncoderPort,
-                         ModuleConstants.kDriveEncoderDistancePerPulse,
-                         DriveConstants.kFrontLeftDriveEncoderReversed,
-                         DriveConstants.kDriveEncoderFrontLeft
-                         );
+  // Robot swerve modules
+  private final SwerveModule m_frontLeft = new SwerveModule(DriveConstants.kFrontLeftDriveMotorPort,
+      DriveConstants.kFrontLeftTurningMotorPort, DriveConstants.kFrontLeftDriveEncoderPort,
+      ModuleConstants.kDriveEncoderDistancePerPulse, DriveConstants.kFrontLeftDriveEncoderReversed,
+      DriveConstants.kDriveEncoderFrontLeft);
 
-  private final SwerveModule m_rearLeft =
-      new SwerveModule(DriveConstants.kRearLeftDriveMotorPort,
-                       DriveConstants.kRearLeftTurningMotorPort,
-                       DriveConstants.kRearLeftDriveEncoderPort,
-                       ModuleConstants.kDriveEncoderDistancePerPulse,
-                       DriveConstants.kRearLeftDriveEncoderReversed,
-                       DriveConstants.kDriveEncoderRearLeft
-                       );
+  private final SwerveModule m_rearLeft = new SwerveModule(DriveConstants.kRearLeftDriveMotorPort,
+      DriveConstants.kRearLeftTurningMotorPort, DriveConstants.kRearLeftDriveEncoderPort,
+      ModuleConstants.kDriveEncoderDistancePerPulse, DriveConstants.kRearLeftDriveEncoderReversed,
+      DriveConstants.kDriveEncoderRearLeft);
 
+  private final SwerveModule m_frontRight = new SwerveModule(DriveConstants.kFrontRightDriveMotorPort,
+      DriveConstants.kFrontRightTurningMotorPort, DriveConstants.kFrontRightDriveEncoderPort,
+      ModuleConstants.kDriveEncoderDistancePerPulse, DriveConstants.kFrontRightDriveEncoderReversed,
+      DriveConstants.kDriveEncoderFrontRight);
 
-  private final SwerveModule m_frontRight =
-      new SwerveModule(DriveConstants.kFrontRightDriveMotorPort,
-                       DriveConstants.kFrontRightTurningMotorPort,
-                       DriveConstants.kFrontRightDriveEncoderPort,
-                       ModuleConstants.kDriveEncoderDistancePerPulse,
-                       DriveConstants.kFrontRightDriveEncoderReversed,
-                       DriveConstants.kDriveEncoderFrontRight
-                       );
-
-  private final SwerveModule m_rearRight =
-      new SwerveModule(DriveConstants.kRearRightDriveMotorPort,
-                       DriveConstants.kRearRightTurningMotorPort,
-                       DriveConstants.kRearRightDriveEncoderPort,
-                       ModuleConstants.kDriveEncoderDistancePerPulse,
-                       DriveConstants.kRearRightDriveEncoderReversed,
-                       DriveConstants.kDriveEncoderRearRight
-                       );
+  private final SwerveModule m_rearRight = new SwerveModule(DriveConstants.kRearRightDriveMotorPort,
+      DriveConstants.kRearRightTurningMotorPort, DriveConstants.kRearRightDriveEncoderPort,
+      ModuleConstants.kDriveEncoderDistancePerPulse, DriveConstants.kRearRightDriveEncoderReversed,
+      DriveConstants.kDriveEncoderRearRight);
 
   // The gyro sensor
   private final Gyro m_gyro = new ADXRS450_Gyro();
 
   // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry =
-      new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getAngle());
+  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(DriveConstants.kDriveKinematics, getAngle());
 
   /**
    * Creates a new DriveSubsystem.
@@ -86,12 +68,8 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // Update the odometry in the periodic block
-    m_odometry.update(
-        new Rotation2d(getHeading()),
-        m_frontLeft.getState(),
-        m_rearLeft.getState(),
-        m_frontRight.getState(),
-        m_rearRight.getState());
+    m_odometry.update(new Rotation2d(getHeading()), m_frontLeft.getState(), m_rearLeft.getState(),
+        m_frontRight.getState(), m_rearRight.getState());
   }
 
   /**
@@ -118,17 +96,15 @@ public class DriveSubsystem extends SubsystemBase {
    * @param xSpeed        Speed of the robot in the x direction (forward).
    * @param ySpeed        Speed of the robot in the y direction (sideways).
    * @param rot           Angular rate of the robot.
-   * @param fieldRelative Whether the provided x and y speeds are relative to the field.
+   * @param fieldRelative Whether the provided x and y speeds are relative to the
+   *                      field.
    */
   @SuppressWarnings("ParameterName")
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(
-        fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(
-            xSpeed, ySpeed, rot, getAngle())
-            : new ChassisSpeeds(xSpeed, ySpeed, rot)
-    );
-    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates,
-                                               DriveConstants.kMaxSpeedMetersPerSecond);
+    var swerveModuleStates = DriveConstants.kDriveKinematics
+        .toSwerveModuleStates(fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getAngle())
+            : new ChassisSpeeds(xSpeed, ySpeed, rot));
+    SwerveDriveKinematics.normalizeWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(swerveModuleStates[0]);
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -141,8 +117,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param desiredStates The desired SwerveModule states.
    */
   public void setModuleStates(SwerveModuleState[] desiredStates) {
-    SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates,
-                                               DriveConstants.kMaxSpeedMetersPerSecond);
+    SwerveDriveKinematics.normalizeWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
     m_frontLeft.setDesiredState(desiredStates[0]);
     m_frontRight.setDesiredState(desiredStates[1]);
     m_rearLeft.setDesiredState(desiredStates[2]);

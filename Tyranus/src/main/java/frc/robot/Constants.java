@@ -10,15 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
-import edu.wpi.first.wpilibj.Encoder;
+import frc.robot.subsystems.AbsoluteEncoder;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants.  This class should not be used for any other purpose.  All constants should be
- * declared globally (i.e. public static).  Do not put anything functional in this class.
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean constants. This class should not be used for any other
+ * purpose. All constants should be declared globally (i.e. public static). Do
+ * not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
- * constants are needed, to reduce verbosity.
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
   public static final class DriveConstants {
@@ -31,10 +33,9 @@ public final class Constants {
     public static final int kRearLeftTurningMotorPort = 6;
     public static final int kFrontRightTurningMotorPort = 4;
     public static final int kRearRightTurningMotorPort = 3;
-
     public static final int kFrontLeftDriveEncoderPort = 0;
-    public static final int kRearLeftDriveEncoderPort = 1;
-    public static final int kFrontRightDriveEncoderPort = 2;
+    public static final int kRearLeftDriveEncoderPort = 2;
+    public static final int kFrontRightDriveEncoderPort = 1;
     public static final int kRearRightDriveEncoderPort = 3;
 
     public static final boolean kFrontLeftDriveEncoderReversed = false;
@@ -42,37 +43,45 @@ public final class Constants {
     public static final boolean kFrontRightDriveEncoderReversed = false;
     public static final boolean kRearRightDriveEncoderReversed = true;
 
+    public static final double SWERVE_STEER_D = .075;
+    public static final double SWERVE_STEER_CAP = 1;
+
     public static final double kTrackWidth = 0.5;
-    //Distance between centers of right and left wheels on robot
+    // Distance between centers of right and left wheels on robot
     public static final double kWheelBase = 0.7;
-    //Distance between front and back wheels on robot
-    public static final SwerveDriveKinematics kDriveKinematics =
-        new SwerveDriveKinematics(
-          new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-          new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-          new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-          new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
+    // Distance between front and back wheels on robot
+    public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
+        new Translation2d(kWheelBase / 2, kTrackWidth / 2), new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
+        new Translation2d(-kWheelBase / 2, kTrackWidth / 2), new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
 
     public static final boolean kGyroReversed = false;
 
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
+    // These characterization values MUST be determined either experimentally or
+    // theoretically
     // for *your* robot's drive.
-    // The RobotPy Characterization Toolsuite provides a convenient tool for obtaining these
+    // The RobotPy Characterization Toolsuite provides a convenient tool for
+    // obtaining these
     // values for your robot.
     public static final double ksVolts = 1;
     public static final double kvVoltSecondsPerMeter = 0.8;
     public static final double kaVoltSecondsSquaredPerMeter = 0.15;
 
     public static final double kMaxSpeedMetersPerSecond = 3;
-    public static Encoder kDriveEncoderFrontLeft;
-    public static Encoder kSteerEncoderFrontLeft;
-    public static Encoder kDriveEncoderRearLeft;
-    public static Encoder kSteerEncoderRearLeft;
-    public static Encoder kSteerEncoderFrontRight;
-    public static Encoder kDriveEncoderFrontRight;
-    public static Encoder kDriveEncoderRearRight;
-    public static Encoder kSteerEncoderRearRight;
+
+    private static double kDriveEncoderFrontLeftOffset = 0;
+    private static double kDriveEncoderRearLeftOffset = 0;
+    private static double kDriveEncoderFrontRightOffset = 0;
+    private static double kDriveEncoderRearRightOffset = 0;
+
+    public static AbsoluteEncoder kDriveEncoderFrontLeft = new AbsoluteEncoder(kFrontLeftDriveEncoderPort,
+        kDriveEncoderFrontLeftOffset);
+    public static AbsoluteEncoder kDriveEncoderRearLeft = new AbsoluteEncoder(kRearLeftDriveEncoderPort,
+        kDriveEncoderRearLeftOffset);
+    public static AbsoluteEncoder kDriveEncoderFrontRight = new AbsoluteEncoder(kFrontRightDriveEncoderPort,
+        kDriveEncoderFrontRightOffset);
+    public static AbsoluteEncoder kDriveEncoderRearRight = new AbsoluteEncoder(kRearRightDriveEncoderPort,
+        kDriveEncoderRearRightOffset);
   }
 
   public static final class ModuleConstants {
@@ -110,10 +119,9 @@ public final class Constants {
     public static final double kPYController = 1;
     public static final double kPThetaController = 1;
 
-    //Constraint for the motion profilied robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(kMaxAngularSpeedRadiansPerSecond,
-          kMaxAngularSpeedRadiansPerSecondSquared);
+    // Constraint for the motion profilied robot angle controller
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
+        kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
 
   }
 
@@ -145,11 +153,6 @@ public final class Constants {
     public final static int DOWN = 180;
     public final static int LEFT = 270;
 
-}
-    
-
-
-
-
+  }
 
 }
